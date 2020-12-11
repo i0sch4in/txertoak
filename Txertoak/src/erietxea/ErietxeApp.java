@@ -56,27 +56,79 @@ public class ErietxeApp {
 		p.inprimatuBurukoa();
 		
 		
-		// begizta x=getX tik x=32*13 arte
-		// eta 	   y=getYtik y=32*7+10 arte
-		int startpx = 32 * 13;
-		int startpy = 32 * 7 + 10;
+		
+/* ----------------------------------    TEST	-----------------------------------------	*/
+
+/*		Set boy's initial position --> pazientea/panela? */
+		int startpx = 32 * 12 + 26;
+		int startpy = 32 * 9;
+
+		// for-a kendu
+		// Thread.sleep -> itxaron()?
+		for (int boy = 0; boy < 1 /*PK*/; boy++) {
+
+			int[] current = panela.getBoyXY(boy);
+			int currentx = current[0];
+			int currenty = current[1];
+
+			// Set X position
+
+			if (currentx <= startpx) {
+
+				for (int i = currentx; i < startpx + 1; i++) {
+					panela.setBoyXY(boy, i, currenty);
+					Thread.sleep(10);
+				}
+			}
+
+			else {
+				for (int i = currentx; i > startpx - 1; i--) {
+					panela.setBoyXY(boy, i, currenty);
+					Thread.sleep(10);
+				}
+			}
+
+			currentx = panela.getBoyXY(boy)[0];
+
+			for (int i = currenty; i < startpy + 1; i++) {
+				panela.setBoyXY(boy, currentx, i);
+				Thread.sleep(10);
+			}
+
+			Thread.sleep(300);
+		}
+
+/*		Move Boy to bed 0 		*/
+		// Boy 0 -> Bed 0; Bed0(x,y) = (300, 350)
 		int boy = 0;
+
+		// bed 0 position
+		int bedx = 300;
+		int bedy = 350;
+
+		// hall X position
+		int lefthall = bedx - 50;
+
 		int[] current = panela.getBoyXY(boy);
 		int currentx = current[0];
 		int currenty = current[1];
-		
-		while (currentx < startpx) {
-			System.out.print("x:" + currentx);
-			panela.setBoyXY(0, currentx, currenty);
-			currentx++;
+
+		for (int i = currentx; i > lefthall - 1; i--) {
+			panela.setBoyXY(boy, i, currenty);
 			Thread.sleep(10);
 		}
-		
-		
-		
-		//panela.setBoyXY(0, 32*13, 32*7+10);
-		//framea.panela.goToStart(0);
+
+		currentx = panela.getBoyXY(boy)[0];
+
+		for (int i = currenty; i < bedy + 1; i++) {
+			panela.setBoyXY(boy, currentx, i);
+			Thread.sleep(10);
+		}
+
+		panela.setBoyXY(boy, bedx + 4, bedy + 2);
 
 	}
 
+	
+	
 }

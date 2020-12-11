@@ -80,9 +80,6 @@ public class Panela extends JPanel implements ActionListener {
 		// draw background
 		g.drawImage(bg, 0, 0, this);
 
-		// draw curtain
-		g.drawImage(crt, 320, 150, this);
-
 		// draw beds
 		for (int i = 0; i < OK; i++) {
 			g.drawImage(bed, bedPos[i][0], bedPos[i][1], this);
@@ -98,12 +95,14 @@ public class Panela extends JPanel implements ActionListener {
 			g.drawImage(nurse, nursePos[i][0], nursePos[i][1], this);
 		}
 
+		// draw curtain
+		g.drawImage(crt, 320, 150, this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		repaint(); // panela bir-margotu (re-paint)
 	}
-	
+
 	public int[] getBoyXY(int boy) {
 		return this.boyPos[boy];
 	}

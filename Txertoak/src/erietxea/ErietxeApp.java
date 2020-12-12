@@ -59,11 +59,12 @@ public class ErietxeApp {
 		
 /* ----------------------------------    TEST	-----------------------------------------	*/
 
-/*		Set boy's initial position --> pazientea/panela? */
+// Boy movement: falta visibility aldatzea
+/*		Set boy to initial position --> pazientea/panela? */
 		int startpx = 32 * 12 + 26;
 		int startpy = 32 * 9;
 
-		// for-a kendu
+		// for-a kendu funtzioa sortzean
 		// Thread.sleep -> itxaron()?
 		for (int boy = 0; boy < 1 /*PK*/; boy++) {
 
@@ -126,7 +127,43 @@ public class ErietxeApp {
 		}
 
 		panela.setBoyXY(boy, bedx + 4, bedy + 2);
+		
+		
+		Thread.sleep(500);
+		
+		
+/*		Move boy from bed to exit					*/		
+		boy = 0;
+		
+		// exit position
+		int exitx = 800-25;
+		int exity = 720;
+		
+		// bed 0 position
+		bedx = 300;
+		bedy = 350;
 
+		// hall X position
+		lefthall = bedx - 50;		
+		
+		// take out of bed
+		panela.setBoyXY(boy, lefthall, bedy + 32); // ohera sartzerakoan ezartzen diren aurkako zeinuak
+		
+		current = panela.getBoyXY(boy);
+		currentx = current[0];
+		currenty = current[1];
+		
+		for (int i = currenty; i < exity + 1; i++) {
+			panela.setBoyXY(boy, currentx, i);
+			Thread.sleep(10);
+		}
+
+		for (int i = currentx; i < exitx + 1; i++) {
+			panela.setBoyXY(boy, i, exity);
+			Thread.sleep(10);
+		}
+		
+		
 	}
 
 	

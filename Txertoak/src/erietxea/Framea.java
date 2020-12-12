@@ -15,7 +15,7 @@ public class Framea extends JFrame {
 		this.setTitle("Erietxea");
 		this.add(panela);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(800,900);
+		this.setSize(800,923);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		this.setResizable(false);

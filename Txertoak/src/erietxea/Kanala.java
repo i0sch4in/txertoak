@@ -4,6 +4,7 @@ public class Kanala {
 	Boolean b, o, e, t;
 	Pantaila p;
 	private int id;
+	private int ohea;
 
 	public Kanala(int id, Pantaila p) {
 		this.id = id;
@@ -33,19 +34,21 @@ public class Kanala {
 	}
 
 //	when (o==0)			p[PIR].eskuratu		-> KANALA[0][1][e][t]
-	synchronized void eskuratu(Pazientea pazientea) throws InterruptedException {
+	synchronized void eskuratu(Pazientea pazientea, int bed) throws InterruptedException {
 		while (!(o == false))
 			wait();
 
 		b = false;
 		o = true;
+		
+		this.ohea = bed;
 
 		p.inprimatu(pazientea, id() + "eskur");
 		notifyAll();
 	}
 
 //	when (o==1 && t==0)	e[EIR].eskaeraJaso	-> KANALA[b][o][1][t]	
-	synchronized void eskaeraJaso(Erizaina erizaina) throws InterruptedException {
+	synchronized int eskaeraJaso(Erizaina erizaina) throws InterruptedException {
 		while (!(o == true && t == false))
 			wait();
 
@@ -53,6 +56,7 @@ public class Kanala {
 
 		p.inprimatu(erizaina, id() + "eskJaso");
 		notifyAll();
+		return ohea;
 	}
 
 //	when (e==1)			e[EIR].txertoaJarri	-> KANALA[b][o][e][1]
@@ -88,5 +92,9 @@ public class Kanala {
 
 	public String id() {
 		return "k" + id + ".";
+	}
+	
+	public int getOhea() {
+		return 0;
 	}
 }

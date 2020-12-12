@@ -21,9 +21,13 @@ public class Panela extends JPanel implements ActionListener {
 	public final int bsize = 32; // Block size = mapako karratu bakoitza
 	public final int[] start = { bsize * 12 + 25, bsize * 9 };
 	public final int[] exit = { 800 - 25, 720 };
-	public final int[][] bedPos = { { 300, 350 }, { 500, 350 }, { 300, 500 }, { 500, 500 }, { 300, 650 }, { 500, 650 } };
-	public final int lefthall = bedPos[0][0] - 50;
-	public final int righthall = bedPos[1][0] + 50;
+	public final int[] nursing = { bsize * 12 + 25, 740 };
+	public final int[][] bedPos = { { 300, 350 }, { 500, 350 }, { 300, 500 }, { 500, 500 }, { 300, 650 },
+			{ 500, 650 } };
+	public final int leftHall = bedPos[0][0] - 50;
+	public final int rightHall = bedPos[1][0] + 50;
+	public final int leftCorridor = bedPos[0][0] + 50;
+	public final int rightCorridor = bedPos[1][0] - 50;
 
 	private int[][] boyPos;
 	private int[][] nursePos;
@@ -76,6 +80,11 @@ public class Panela extends JPanel implements ActionListener {
 		timer.start();
 	}
 
+	// Boy position
+	public int[] getBoyXY(int boy) {
+		return this.boyPos[boy];
+	}
+
 	public void setBoyXY(int boy, int x, int y) {
 		this.boyPos[boy][0] = x;
 		this.boyPos[boy][1] = y;
@@ -84,11 +93,30 @@ public class Panela extends JPanel implements ActionListener {
 	public void setBoyX(int boy, int x) {
 		this.boyPos[boy][0] = x;
 	}
-	
+
 	public void setBoyY(int boy, int y) {
 		this.boyPos[boy][1] = y;
 	}
+
 	
+	// Nurse position
+	public int[] getNurseXY(int nurse) {
+		return this.nursePos[nurse];
+	}
+
+	public void setNurseXY(int nurse, int x, int y) {
+		this.nursePos[nurse][0] = x;
+		this.nursePos[nurse][1] = y;
+	}
+
+	public void setNurseX(int nurse, int x) {
+		this.nursePos[nurse][0] = x;
+	}
+
+	public void setNurseY(int nurse, int y) {
+		this.nursePos[nurse][1] = y;
+	}
+
 	public void paint(Graphics g) {
 		super.paint(g);
 
@@ -117,23 +145,5 @@ public class Panela extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		repaint(); // panela bir-margotu (re-paint)
 	}
-
-	public int[] getBoyXY(int boy) {
-		return this.boyPos[boy];
-	}
-
-//	public void goToStart(int boy) {
-//		int startpx = 32 * 13;
-//		int startpy = 32 * 7 + 10;
-//
-//		while (boyPos[boy][0] < startpx) {
-//			boyPos[boy][0] += 1;
-//		}
-//
-//		while (boyPos[boy][1] < startpy) {
-//			boyPos[boy][1] += 1;
-//		}
-//
-//	}
 
 }

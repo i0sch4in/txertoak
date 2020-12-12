@@ -4,11 +4,11 @@ public class Pazientea extends Thread implements Tab {
 	private Kanala[] k;
 	private Fifo fifo;
 	private Panela panela;
-	private int s;
-	private int x;
+	private int s; // Sartu den ohearen posizioa
+	private int x; // Kanalaren indizea
 	private int id;
-	private int j;
-	private int speed = 5;
+	private int j; // Itxarote-ilarako posizioa
+	private final int speed = 5;
 
 	public Pazientea(int id, Fifo l, Kanala[] k, Panela p) {
 		this.id = id;
@@ -52,7 +52,7 @@ public class Pazientea extends Thread implements Tab {
 
 //				SEGI[x:EIR][s:OSR] = (k[x].eskuratu -> k[x].askatu -> irten[s] -> PAZIENTE).
 				itxaron(1000);
-				k[x].eskuratu(this);
+				k[x].eskuratu(this, s);
 
 				itxaron(1000);
 				k[x].askatu(this);
@@ -85,9 +85,9 @@ public class Pazientea extends Thread implements Tab {
 		int hall;
 
 		if (bed % 2 == 0) {
-			hall = panela.lefthall;
+			hall = panela.leftHall;
 		} else {
-			hall = panela.righthall;
+			hall = panela.rightHall;
 		}
 
 		// Set X position

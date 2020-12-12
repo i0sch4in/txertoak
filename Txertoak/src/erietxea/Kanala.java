@@ -5,11 +5,13 @@ public class Kanala {
 	Pantaila p;
 	private int id;
 	private int ohea;
+	Panela panela;
 
-	public Kanala(int id, Pantaila p) {
+	public Kanala(int id, Pantaila p, Panela panela) {
 		this.id = id;
 		this.p = p;
 		o = b = e = t = false;
+		this.panela = panela;
 	}
 
 //	when (b==0)			p[PIR].begiratu[o]	-> KANALA[1][o][e][t]
@@ -67,6 +69,7 @@ public class Kanala {
 		t = true;
 
 		p.inprimatu(erizaina, id() + "txJarri");
+		panela.hideVac(erizaina.id);
 		notifyAll();
 	}
 

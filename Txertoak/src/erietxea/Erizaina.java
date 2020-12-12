@@ -2,7 +2,7 @@ package erietxea;
 
 public class Erizaina extends Thread implements Tab {
 	private Kanala k;
-	private int id;
+	public int id;
 	private Panela panela;
 	private final int speed = 5;
 
@@ -19,7 +19,8 @@ public class Erizaina extends Thread implements Tab {
 				int bed = k.eskaeraJaso(this);
 				goToBed(bed);
 
-				itxaron(1000);
+				panela.showVac(id);
+				itxaron(2000);
 				k.txertoaJarri(this);
 
 			} catch (Exception e) {
@@ -27,8 +28,8 @@ public class Erizaina extends Thread implements Tab {
 			}
 		}
 	}
-	
-	private void goToBed(int bed) throws InterruptedException{
+
+	private void goToBed(int bed) throws InterruptedException {
 		int[] current = panela.getNurseXY(id);
 		int bed_y = panela.bedPos[bed][1];
 		int hall;
@@ -44,9 +45,9 @@ public class Erizaina extends Thread implements Tab {
 
 		// Set Y position
 		goToY(current[1], bed_y);
-	
+
 	}
-	
+
 	public void goToX(int current_x, int goal_x) throws InterruptedException {
 		if (current_x <= goal_x) {
 			// Go right
@@ -63,7 +64,7 @@ public class Erizaina extends Thread implements Tab {
 			}
 		}
 	}
-	
+
 	public void goToY(int current_y, int goal_y) throws InterruptedException {
 		if (current_y <= goal_y) {
 			// Go bottom

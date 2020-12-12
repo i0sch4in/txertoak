@@ -5,7 +5,7 @@ import erietxea.Framea;
 public class ErietxeApp {
 	// Parametroak zehaztu
 	public final static int OK = 6; // Ohe kopurua
-	public final static int PK = 8; // Paziente kopurua
+	public final static int PK = 15; // Paziente kopurua
 	public final static int EK = 3; // Erizain kopurua
 	public final static int IK = 4; // Itxarote-gelaren tamaina
 	public final static int IM = 2; // Itxarote-gelaren egon behar den paziente-kopuru minimoa
@@ -34,7 +34,7 @@ public class ErietxeApp {
 
 		// harien arrayak hasieratu
 		for (int i = 0; i < EK; i++) {
-			kanalak[i] = new Kanala(i, p);
+			kanalak[i] = new Kanala(i, p, panela);
 			erizainak[i] = new Erizaina(i, kanalak[i], panela);
 		}
 		for (int i = 0; i < PK; i++) {

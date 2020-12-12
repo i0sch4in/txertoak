@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 
 public class Panela extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private Image boy, nurse, bed, bg, crt;
+	private Image boy, nurse, bed, bg, crt, vaccine;
 	private Timer timer;
 
 	// Checkpoint grafikoak zehaztu
@@ -23,8 +23,8 @@ public class Panela extends JPanel implements ActionListener {
 	public final int[] start = { bsize * 12 + 25, bsize * 9 };
 	public final int[] exit = { 800 - 25, 720 };
 	public final int[] nursing = { bsize * 12 + 25, 740 };
-	public final int[][] bedPos = { { 300, 350 }, { 500, 350 }, { 300, 500 }, { 500, 500 }, { 300, 650 },
-			{ 500, 650 } };
+	public final int[][] bedPos = { { 250, 350 }, { 550, 350 }, { 250, 500 }, { 550, 500 }, { 250, 650 },
+			{ 550, 650 } };
 	public final int leftHall = bedPos[0][0] - 50;
 	public final int rightHall = bedPos[1][0] + 50;
 	public final int leftCorridor = bedPos[0][0] + 50;
@@ -33,6 +33,7 @@ public class Panela extends JPanel implements ActionListener {
 	private int[][] boyPos;
 	private boolean[] visibleBoys;
 	private int[][] nursePos;
+	private boolean[] visibleVac;
 	private int OK = bedPos.length;
 	private int PK;
 	private int EK;
@@ -41,6 +42,7 @@ public class Panela extends JPanel implements ActionListener {
 		// ALDATU: hasierako posizioa = sarrera
 		// Pazienteen posizioen sorrera "dinamikoa"
 		PK = ErietxeApp.PK;
+		EK = ErietxeApp.PK;
 		boyPos = new int[PK][2];
 //		for (int i = 0; i < PK; i++) {
 //			boyPos[i][0] = entry[0];
@@ -49,9 +51,9 @@ public class Panela extends JPanel implements ActionListener {
 
 		// Default all boys visibility to false
 		visibleBoys = new boolean[PK];
+		visibleVac = new boolean[EK];
 
 		// Erizainen posizioen sorrera "dinamikoa"
-		EK = ErietxeApp.PK;
 		nursePos = new int[EK][2];
 		int initialX = 200;
 		int initialY = 800;
@@ -62,9 +64,7 @@ public class Panela extends JPanel implements ActionListener {
 			initialX += sepX;
 		}
 
-		// hemen oheen sortze dinamikoa
-		//
-
+		// Irudiak kargatu
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("boy.png"));
 		boy = ii.getImage();
 		ImageIcon ii2 = new ImageIcon(this.getClass().getResource("nurse.png"));
@@ -75,10 +75,12 @@ public class Panela extends JPanel implements ActionListener {
 		bg = iibg.getImage();
 		ImageIcon iicu = new ImageIcon(this.getClass().getResource("curtain.png"));
 		crt = iicu.getImage();
+		ImageIcon iivc = new ImageIcon(this.getClass().getResource("vaccine.gif"));
+		vaccine = iivc.getImage();
 
 		this.setBackground(Color.white);
 
-		timer = new Timer(10, this); // 10ms-ro actionPerformed metodoari deitzen dio
+		timer = new Timer(15, this); // 10ms-ro actionPerformed metodoari deitzen dio
 		timer.start();
 	}
 
@@ -89,23 +91,25 @@ public class Panela extends JPanel implements ActionListener {
 		g.drawImage(bg, 0, 0, this);
 
 		// draw beds
-		for (int i = 0; i < OK; i++) {
+		for (int i = 0; i < OK; i++)
 			g.drawImage(bed, bedPos[i][0], bedPos[i][1], this);
-		}
 
 		// draw boys
-		for (int i = 0; i < PK; i++) {
-			if (isVisible(i))
+		for (int i = 0; i < PK; i++)
+			if (isVisibleBoy(i))
 				g.drawImage(boy, boyPos[i][0], boyPos[i][1], this);
-		}
 
 		// draw nurses
-		for (int i = 0; i < EK; i++) {
+		for (int i = 0; i < EK; i++)
 			g.drawImage(nurse, nursePos[i][0], nursePos[i][1], this);
-		}
 
 		// draw curtain
 		g.drawImage(crt, 320, 150, this);
+
+		// draw vacine
+		for (int i = 0; i < EK; i++)
+			if (isVisibleVac(i))
+				g.drawImage(vaccine, nursePos[i][0] - 80, nursePos[i][1] - 80, this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -121,7 +125,7 @@ public class Panela extends JPanel implements ActionListener {
 		visibleBoys[boy] = false;
 	}
 
-	public Boolean isVisible(int boy) {
+	private Boolean isVisibleBoy(int boy) {
 		if (visibleBoys[boy])
 			return true;
 		return false;
@@ -165,6 +169,20 @@ public class Panela extends JPanel implements ActionListener {
 
 	public void setNurseY(int nurse, int y) {
 		this.nursePos[nurse][1] = y;
+	}
+
+	public void showVac(int nurse) {
+		visibleVac[nurse] = true;
+	}
+
+	public void hideVac(int nurse) {
+		visibleVac[nurse] = false;
+	}
+
+	private Boolean isVisibleVac(int nurse) {
+		if (visibleVac[nurse])
+			return true;
+		return false;
 	}
 
 }

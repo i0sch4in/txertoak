@@ -92,21 +92,22 @@ public class Fifo {
 
 	public String getItxarote() {
 		String str = "[";
-		if (ii < is) {
-			int has = ii;
-			int erd = ik;
-			int buk = IK - has - erd;
-			str += " ".repeat(has) + "*".repeat(erd) + " ".repeat(buk);
-		} else {
-			int has = (ii + ik) % IK;
-			int buk = i - has;
-			int erd = IK - has - buk;
-			if (buk >= 0)
-				str += "*".repeat(has) + " ".repeat(erd) + "*".repeat(buk);
-			else
-				str += " ".repeat(IK);
-		}
-		str += "]";
+		// Errore eman dezake
+//		if (ii < is) {
+//			int has = ii;
+//			int erd = ik;
+//			int buk = IK - has - erd;
+//			str += " ".repeat(has) + "*".repeat(erd) + " ".repeat(buk);
+//		} else {
+//			int has = (ii + ik) % IK;
+//			int buk = i - has;
+//			int erd = IK - has - buk;
+//			if (buk >= 0)
+//				str += "*".repeat(has) + " ".repeat(erd) + "*".repeat(buk);
+//			else
+//				str += " ".repeat(IK);
+//		}
+//		str += "]";
 		return str;
 	}
 	

@@ -25,6 +25,10 @@ public class Pazientea extends Thread implements Tab {
 		while (true) {
 			try {
 				itxaron(1000);
+				panela.setEntryPos(id);
+				panela.showBoy(id);
+
+				itxaron(1000);
 				j = fifo.iritsi(this);
 
 				itxaron(1000);
@@ -59,6 +63,8 @@ public class Pazientea extends Thread implements Tab {
 
 				itxaron(1000);
 				fifo.irten(this, s);
+				goToExit();
+				panela.hideBoy(id);
 
 			} catch (Exception e) {
 			}
@@ -97,6 +103,31 @@ public class Pazientea extends Thread implements Tab {
 		goToY(current[1], bed_y);
 
 		panela.setBoyXY(id, bed_x + 4, bed_y + 2);
+
+	}
+
+	private void goToExit() throws InterruptedException {
+		int bed = this.s;
+		int bed_y = panela.bedPos[bed][1];
+		int[] exit = panela.exit;
+		int hall;
+
+		if (bed % 2 == 0) {
+			hall = panela.leftHall;
+		} else {
+			hall = panela.rightHall;
+		}
+
+		int current_x = hall;
+		int current_y = bed_y + 32;
+
+		panela.setBoyXY(id, current_x, current_y);
+
+		// Set Y position
+		goToY(current_y, exit[1]);
+
+		// Set X position
+		goToX(current_x, exit[0]);
 
 	}
 

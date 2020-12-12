@@ -21,4 +21,3 @@ public class Framea extends JFrame {
 		this.setResizable(false);
 	}
 }
-

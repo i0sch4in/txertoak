@@ -35,7 +35,6 @@ public class ErietxeApp {
 		// harien arrayak hasieratu
 		for (int i = 0; i < EK; i++) {
 			kanalak[i] = new Kanala(i, p);
-			// aldatu erizainen IDa
 			erizainak[i] = new Erizaina(i, kanalak[i], panela);
 		}
 		for (int i = 0; i < PK; i++) {

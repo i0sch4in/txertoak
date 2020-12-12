@@ -19,6 +19,7 @@ public class Panela extends JPanel implements ActionListener {
 
 	// Checkpoint grafikoak zehaztu
 	public final int bsize = 32; // Block size = mapako karratu bakoitza
+	public final int[] entry = { 10, bsize * 1 + 10 };
 	public final int[] start = { bsize * 12 + 25, bsize * 9 };
 	public final int[] exit = { 800 - 25, 720 };
 	public final int[] nursing = { bsize * 12 + 25, 740 };
@@ -30,30 +31,31 @@ public class Panela extends JPanel implements ActionListener {
 	public final int rightCorridor = bedPos[1][0] - 50;
 
 	private int[][] boyPos;
+	private boolean[] visibleBoys;
 	private int[][] nursePos;
 	private int OK = bedPos.length;
 	private int PK;
 	private int EK;
 
 	public Panela() {
+		// ALDATU: hasierako posizioa = sarrera
 		// Pazienteen posizioen sorrera "dinamikoa"
 		PK = ErietxeApp.PK;
 		boyPos = new int[PK][2];
-		int initialX = 100;
-		int initialY = 40;
-		int sepX = 80;
-		for (int i = 0; i < PK; i++) {
-			boyPos[i][0] = initialX;
-			boyPos[i][1] = initialY;
-			initialX += sepX;
-		}
+//		for (int i = 0; i < PK; i++) {
+//			boyPos[i][0] = entry[0];
+//			boyPos[i][1] = entry[1];
+//		}
+
+		// Default all boys visibility to false
+		visibleBoys = new boolean[PK];
 
 		// Erizainen posizioen sorrera "dinamikoa"
 		EK = ErietxeApp.PK;
 		nursePos = new int[EK][2];
-		initialX = 200;
-		initialY = 800;
-		sepX = 200;
+		int initialX = 200;
+		int initialY = 800;
+		int sepX = 200;
 		for (int i = 0; i < EK; i++) {
 			nursePos[i][0] = initialX;
 			nursePos[i][1] = initialY;
@@ -80,7 +82,51 @@ public class Panela extends JPanel implements ActionListener {
 		timer.start();
 	}
 
+	public void paint(Graphics g) {
+		super.paint(g);
+
+		// draw background
+		g.drawImage(bg, 0, 0, this);
+
+		// draw beds
+		for (int i = 0; i < OK; i++) {
+			g.drawImage(bed, bedPos[i][0], bedPos[i][1], this);
+		}
+
+		// draw boys
+		for (int i = 0; i < PK; i++) {
+			if (isVisible(i))
+				g.drawImage(boy, boyPos[i][0], boyPos[i][1], this);
+		}
+
+		// draw nurses
+		for (int i = 0; i < EK; i++) {
+			g.drawImage(nurse, nursePos[i][0], nursePos[i][1], this);
+		}
+
+		// draw curtain
+		g.drawImage(crt, 320, 150, this);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		repaint(); // panela bir-margotu (re-paint)
+	}
+
 	// Boy position
+	public void showBoy(int boy) {
+		visibleBoys[boy] = true;
+	}
+
+	public void hideBoy(int boy) {
+		visibleBoys[boy] = false;
+	}
+
+	public Boolean isVisible(int boy) {
+		if (visibleBoys[boy])
+			return true;
+		return false;
+	}
+
 	public int[] getBoyXY(int boy) {
 		return this.boyPos[boy];
 	}
@@ -98,7 +144,11 @@ public class Panela extends JPanel implements ActionListener {
 		this.boyPos[boy][1] = y;
 	}
 
-	
+	public void setEntryPos(int boy) {
+		this.boyPos[boy][0] = entry[0];
+		this.boyPos[boy][1] = entry[1];
+	}
+
 	// Nurse position
 	public int[] getNurseXY(int nurse) {
 		return this.nursePos[nurse];
@@ -115,35 +165,6 @@ public class Panela extends JPanel implements ActionListener {
 
 	public void setNurseY(int nurse, int y) {
 		this.nursePos[nurse][1] = y;
-	}
-
-	public void paint(Graphics g) {
-		super.paint(g);
-
-		// draw background
-		g.drawImage(bg, 0, 0, this);
-
-		// draw beds
-		for (int i = 0; i < OK; i++) {
-			g.drawImage(bed, bedPos[i][0], bedPos[i][1], this);
-		}
-
-		// draw boys
-		for (int i = 0; i < PK; i++) {
-			g.drawImage(boy, boyPos[i][0], boyPos[i][1], this);
-		}
-
-		// draw nurses
-		for (int i = 0; i < EK; i++) {
-			g.drawImage(nurse, nursePos[i][0], nursePos[i][1], this);
-		}
-
-		// draw curtain
-		g.drawImage(crt, 320, 150, this);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		repaint(); // panela bir-margotu (re-paint)
 	}
 
 }

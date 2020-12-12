@@ -3,16 +3,19 @@ package erietxea;
 public class Pazientea extends Thread implements Tab {
 	private Kanala[] k;
 	private Fifo fifo;
+	private Panela panela;
 	private int s;
 	private int x;
 	private int id;
 	private int j;
+	private int speed = 5;
 
-	public Pazientea(int id, Fifo l, Kanala[] k) {
+	public Pazientea(int id, Fifo l, Kanala[] k, Panela p) {
 		this.id = id;
 		this.k = k;
 		this.fifo = l;
 		this.x = 0;
+		this.panela = p;
 	}
 
 	/*
@@ -23,10 +26,12 @@ public class Pazientea extends Thread implements Tab {
 			try {
 				itxaron(1000);
 				j = fifo.iritsi(this);
-				
+
 				itxaron(1000);
 				s = fifo.sartuTxanda(this, j);
-				
+				goToStart();
+				goToBed();
+
 				/*		BEGIRATU[x:EIR][s:OSR] = (k[x].begiratu[okup:Bool] ->
 				 * 		if(okup==0) then SEGI[x][s]
 										else(k[x].desblokeatu -> if(x<EK) then BEGIRATU[x+1][s]
@@ -56,6 +61,74 @@ public class Pazientea extends Thread implements Tab {
 				fifo.irten(this, s);
 
 			} catch (Exception e) {
+			}
+		}
+	}
+
+	private void goToStart() throws InterruptedException {
+		int[] current = panela.getBoyXY(id);
+		int start_x = panela.start[0];
+		int start_y = panela.start[1];
+
+		// SET X position
+		goToX(current[0], start_x);
+
+		// SET Y position
+		goToY(current[1], start_y);
+	}
+
+	private void goToBed() throws InterruptedException {
+		int bed = this.s;
+		int[] current = panela.getBoyXY(id);
+		int bed_x = panela.bedPos[bed][0];
+		int bed_y = panela.bedPos[bed][1];
+		int hall;
+
+		if (bed % 2 == 0) {
+			hall = panela.lefthall;
+		} else {
+			hall = panela.righthall;
+		}
+
+		// Set X position
+		goToX(current[0], hall);
+
+		// Set Y position
+		goToY(current[1], bed_y);
+
+		panela.setBoyXY(id, bed_x + 4, bed_y + 2);
+
+	}
+
+	public void goToX(int current_x, int goal_x) throws InterruptedException {
+		if (current_x <= goal_x) {
+			// Go right
+			for (int i = current_x; i < goal_x + 1; i++) {
+				panela.setBoyX(id, i);
+				sleep(speed);
+			}
+		} else {
+
+			// Go left
+			for (int i = current_x; i > goal_x - 1; i--) {
+				panela.setBoyX(id, i);
+				sleep(speed);
+			}
+		}
+	}
+
+	public void goToY(int current_y, int goal_y) throws InterruptedException {
+		if (current_y <= goal_y) {
+			// Go bottom
+			for (int i = current_y; i < goal_y + 1; i++) {
+				panela.setBoyY(id, i);
+				sleep(speed);
+			}
+		} else {
+			// Go top
+			for (int i = current_y; i > goal_y - 1; i--) {
+				panela.setBoyY(id, i);
+				sleep(speed);
 			}
 		}
 	}

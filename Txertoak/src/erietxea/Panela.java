@@ -17,7 +17,14 @@ public class Panela extends JPanel implements ActionListener {
 	private Image boy, nurse, bed, bg, crt;
 	private Timer timer;
 
-	private int[][] bedPos = { { 300, 350 }, { 500, 350 }, { 300, 500 }, { 500, 500 }, { 300, 650 }, { 500, 650 } };
+	// Checkpoint grafikoak zehaztu
+	public final int bsize = 32; // Block size = mapako karratu bakoitza
+	public final int[] start = { bsize * 12 + 25, bsize * 9 };
+	public final int[] exit = { 800 - 25, 720 };
+	public final int[][] bedPos = { { 300, 350 }, { 500, 350 }, { 300, 500 }, { 500, 500 }, { 300, 650 }, { 500, 650 } };
+	public final int lefthall = bedPos[0][0] - 50;
+	public final int righthall = bedPos[1][0] + 50;
+
 	private int[][] boyPos;
 	private int[][] nursePos;
 	private int OK = bedPos.length;
@@ -65,7 +72,7 @@ public class Panela extends JPanel implements ActionListener {
 
 		this.setBackground(Color.white);
 
-		timer = new Timer(15, this); // 15ms-ro actionPerformed metodoari deitzen dio
+		timer = new Timer(10, this); // 10ms-ro actionPerformed metodoari deitzen dio
 		timer.start();
 	}
 
@@ -74,6 +81,14 @@ public class Panela extends JPanel implements ActionListener {
 		this.boyPos[boy][1] = y;
 	}
 
+	public void setBoyX(int boy, int x) {
+		this.boyPos[boy][0] = x;
+	}
+	
+	public void setBoyY(int boy, int y) {
+		this.boyPos[boy][1] = y;
+	}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 

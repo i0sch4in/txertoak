@@ -10,6 +10,8 @@ import java.awt.Color;
 // Timer Imports
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.awt.event.ActionEvent;
 
 public class Panela extends JPanel implements ActionListener {
@@ -17,7 +19,7 @@ public class Panela extends JPanel implements ActionListener {
 	private Image boy, nurse, bed, bg, crt, vaccine;
 	private Timer timer;
 
-	// Checkpoint grafikoak zehaztu
+	// Grafikoaren Checkpoint-ak zehaztu
 	public final int bsize = 32; // Block size = mapako karratu bakoitza
 	public final int[] entry = { 10, bsize * 1 + 10 };
 	public final int[] start = { bsize * 12 + 25, bsize * 9 };
@@ -26,7 +28,7 @@ public class Panela extends JPanel implements ActionListener {
 	public final int[][] bedPos = { { 250, 350 }, { 550, 350 }, { 250, 500 }, { 550, 500 }, { 250, 650 },
 			{ 550, 650 } };
 	public final int leftHall = bedPos[0][0] - 50;
-	public final int rightHall = bedPos[1][0] + 50;
+	public final int rightHall = bedPos[1][0] + 70;
 	public final int leftCorridor = bedPos[0][0] + 50;
 	public final int rightCorridor = bedPos[1][0] - 50;
 
@@ -34,6 +36,8 @@ public class Panela extends JPanel implements ActionListener {
 	private boolean[] visibleBoys;
 	private int[][] nursePos;
 	private boolean[] visibleVac;
+//	private Queue<Integer> ilara;
+
 	private int OK = bedPos.length;
 	private int PK;
 	private int EK;
@@ -52,6 +56,7 @@ public class Panela extends JPanel implements ActionListener {
 		// Default all boys visibility to false
 		visibleBoys = new boolean[PK];
 		visibleVac = new boolean[EK];
+//		ilara = new LinkedList<Integer>();
 
 		// Erizainen posizioen sorrera "dinamikoa"
 		nursePos = new int[EK][2];
@@ -75,12 +80,12 @@ public class Panela extends JPanel implements ActionListener {
 		bg = iibg.getImage();
 		ImageIcon iicu = new ImageIcon(this.getClass().getResource("curtain.png"));
 		crt = iicu.getImage();
-		ImageIcon iivc = new ImageIcon(this.getClass().getResource("vaccine.gif"));
+		ImageIcon iivc = new ImageIcon(this.getClass().getResource("vaccine.png"));
 		vaccine = iivc.getImage();
 
 		this.setBackground(Color.white);
 
-		timer = new Timer(15, this); // 10ms-ro actionPerformed metodoari deitzen dio
+		timer = new Timer(10, this); // 15ms-ro actionPerformed metodoari deitzen dio
 		timer.start();
 	}
 
@@ -112,9 +117,22 @@ public class Panela extends JPanel implements ActionListener {
 				g.drawImage(vaccine, nursePos[i][0] - 80, nursePos[i][1] - 80, this);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		repaint(); // panela bir-margotu (re-paint)
-	}
+//	// pazientetik
+//	public int ilaranSartu(int boy) {
+//		int pos = start[0] - ilara.size() * 50; // to class variable
+//		ilara.add(boy);
+//		return pos;
+//	}
+//
+//	// pazientetik
+//	public void ilaratikAtera() {
+//		ilara.poll();
+//		for (int tmp : ilara) {
+//			int pos = getBoyXY(tmp)[0];
+//			pos = pos + 50;
+//			setBoyX(tmp, pos);
+//		}
+//	}
 
 	// Boy position
 	public void showBoy(int boy) {
@@ -183,6 +201,10 @@ public class Panela extends JPanel implements ActionListener {
 		if (visibleVac[nurse])
 			return true;
 		return false;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		repaint(); // panela bir-margotu (re-paint)
 	}
 
 }

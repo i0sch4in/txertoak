@@ -1,5 +1,7 @@
 package erietxea;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Pazientea extends Thread implements Tab {
 	private Kanala[] k;
 	private Fifo fifo;
@@ -8,7 +10,7 @@ public class Pazientea extends Thread implements Tab {
 	private int x; // Kanalaren indizea
 	private int id;
 	private int j; // Itxarote-ilarako posizioa
-	private final int speed = 5;
+	private final int speed = 10;
 
 	public Pazientea(int id, Fifo l, Kanala[] k, Panela p) {
 		this.id = id;
@@ -30,9 +32,13 @@ public class Pazientea extends Thread implements Tab {
 
 				itxaron(1000);
 				j = fifo.iritsi(this);
+//				int ilarapos = panela.ilaranSartu(id);
+				goToQueue();
+				
 
 				itxaron(1000);
 				s = fifo.sartuTxanda(this, j);
+//				panela.ilaratikAtera();
 				goToStart();
 				goToBed();
 
@@ -69,6 +75,24 @@ public class Pazientea extends Thread implements Tab {
 			} catch (Exception e) {
 			}
 		}
+	}
+
+	private void goToQueue() throws InterruptedException {
+		int [] range_x = {250, 550};
+		int [] range_y = {20, 200};
+		
+		int start_x = panela.entry[0];
+		int start_y = panela.entry[1];
+		
+		int pos_x = ThreadLocalRandom.current().nextInt(range_x[0], range_x[1] + 1);
+		int pos_y = ThreadLocalRandom.current().nextInt(range_y[0], range_y[1] + 1);
+
+		
+		// SET X position
+		goToX(start_x, pos_x);
+		
+		// SET Y position
+		goToY(start_y, pos_y);
 	}
 
 	private void goToStart() throws InterruptedException {
@@ -119,7 +143,9 @@ public class Pazientea extends Thread implements Tab {
 		}
 
 		int current_x = hall;
-		int current_y = bed_y + 32;
+		int current_y = bed_y + 30;
+		
+		itxaron(500);
 
 		panela.setBoyXY(id, current_x, current_y);
 

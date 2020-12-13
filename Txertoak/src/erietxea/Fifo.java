@@ -10,14 +10,16 @@ public class Fifo {
 	int is;// Itxarote ilarara sartzeko posizioa
 	int ii;// itxarote ilaratik atratzeko posizioa
 	int ik;// Itxaroten dagoen paziente kopurua
+	Panela panela;
 
 	Pantaila p;
 
-	public Fifo(Pantaila p) {
+	public Fifo(Pantaila p, Panela panel) {
 		this.p = p;
 		this.OK = ErietxeApp.OK;
 		this.IK = ErietxeApp.IK;
 		this.IM = ErietxeApp.IM;
+		this.panela = panel;
 
 		s = i = k = is = ii = ik = 0;
 	}
@@ -38,7 +40,7 @@ public class Fifo {
 
 	}
 
-//	when (ik>=IM && k<OK)	p[PIR].sartuTxanda[ii][s]-> FIFO[(s+1)%OK][i]       [k+1][is]	    [(ii+1)%IK][ik-1]
+//	when (ik>=IM && k<OK)	p[PIR].sartuTxanda[ii][s]-> FIFO[(s+1)%OK] [i] [k+1] [is]  [(ii+1)%IK] [ik-1]
 	synchronized int sartuTxanda(Pazientea pazientea, int j) throws InterruptedException {
 		while (!(ik >= IM && j == ii && k < OK))
 			wait();
@@ -58,9 +60,9 @@ public class Fifo {
 		return tmp2;
 	}
 
-//	when (k>0) 			p[PIR].irten[i] 	 	 -> FIFO[s]       [(i+1)%OK][k-1][is]	    [ii]		  [ik]
+//	when 	 				p[PIR].irten[i] 	 	 -> FIFO[s]       [(i+1)%OK] [k-1] [is]	[ii] [ik]
 	synchronized void irten(Pazientea pazientea, int x) throws InterruptedException {
-		while (!(k > 0 && x == i))
+		while (!(x == i))
 			wait();
 
 		i = (i + 1) % OK;
@@ -110,6 +112,5 @@ public class Fifo {
 //		str += "]";
 		return str;
 	}
-	
-	
+
 }

@@ -5,7 +5,7 @@ import erietxea.Framea;
 public class ErietxeApp {
 	// Parametroak zehaztu
 	public final static int OK = 6; // Ohe kopurua
-	public final static int PK = 15; // Paziente kopurua
+	public final static int PK = 10; // Paziente kopurua
 	public final static int EK = 3; // Erizain kopurua
 	public final static int IK = 4; // Itxarote-gelaren tamaina
 	public final static int IM = 2; // Itxarote-gelaren egon behar den paziente-kopuru minimoa
@@ -25,7 +25,7 @@ public class ErietxeApp {
 		Pantaila p = new Pantaila();
 
 		// monitoreak hasieratu
-		Fifo f = new Fifo(p);
+		Fifo f = new Fifo(p, panela);
 		Kanala[] kanalak = new Kanala[EK];
 		p.setValues(f, kanalak);
 

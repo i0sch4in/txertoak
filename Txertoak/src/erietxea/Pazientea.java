@@ -89,7 +89,7 @@ public class Pazientea extends Thread implements Tab {
 		int start_y = panela.start[1];
 
 		// SET Y position -> get out of Queue
-		goToY(current[1], (start_y + current[1]) / 3);
+		goToY(current[1], (start_y + current[1]) / 4);
 
 		// SET X position
 		goToX(current[0], start_x);

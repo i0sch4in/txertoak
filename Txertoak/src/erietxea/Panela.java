@@ -15,7 +15,7 @@ public class Panela extends JPanel implements ActionListener {
 	// TODO window height eta size aldagai batean gorde
 
 	private static final long serialVersionUID = 1L;
-	private Image boy, nurse, bed, bg, crt, vaccine, barrier, tree;
+	private Image boy, nurse, bed, bg, crt, vaccine, barrier, tree, girl, reception;
 	private Timer timer;
 
 	// Grafikoaren Checkpoint-ak zehaztu
@@ -33,6 +33,7 @@ public class Panela extends JPanel implements ActionListener {
 
 	private int[][] boyPos;
 	private boolean[] visibleBoys;
+	private boolean[] girlorboy; // true = boy; false = girl
 	private int[][] nursePos;
 	private boolean[] visibleVac;
 
@@ -48,6 +49,13 @@ public class Panela extends JPanel implements ActionListener {
 		// Default all boys visibility to false
 		visibleBoys = new boolean[PK];
 		visibleVac = new boolean[EK];
+		girlorboy = new boolean[PK];
+
+		for (int i = 0; i < PK; i++)
+			if (Math.random() < 0.5) // boy
+				girlorboy[i] = true;
+			else // girl
+				girlorboy[i] = false;
 
 		// Erizainen hasierako posizioen sorrera "dinamikoa"
 		nursePos = new int[EK][2];
@@ -77,10 +85,15 @@ public class Panela extends JPanel implements ActionListener {
 		barrier = iibr.getImage();
 		ImageIcon iibr2 = new ImageIcon(this.getClass().getResource("tree.png"));
 		tree = iibr2.getImage();
+		ImageIcon iigr = new ImageIcon(this.getClass().getResource("girl.png"));
+		girl = iigr.getImage();
+		ImageIcon iire = new ImageIcon(this.getClass().getResource("reception.png"));
+		reception = iire.getImage();
+		
 
 		this.setBackground(Color.white);
 
-		timer = new Timer(5, this); // 15ms-ro actionPerformed metodoari deitzen dio
+		timer = new Timer(1, this); // 1ms-ro actionPerformed metodoari deitzen dio
 		timer.start();
 	}
 
@@ -98,12 +111,20 @@ public class Panela extends JPanel implements ActionListener {
 
 		// draw boys
 		for (int i = 0; i < PK; i++)
-			if (isVisibleBoy(i))
-				g.drawImage(boy, boyPos[i][0], boyPos[i][1], this);
+			if (isVisibleBoy(i)) {
+				if (girlorboy[i])
+					g.drawImage(boy, boyPos[i][0], boyPos[i][1], this);
+				else
+					g.drawImage(girl, boyPos[i][0], boyPos[i][1], this);
+			}
 
 		// draw nurses
 		for (int i = 0; i < EK; i++)
 			g.drawImage(nurse, nursePos[i][0], nursePos[i][1], this);
+		
+		// draw reception
+		g.drawImage(reception, 530, 15, this);
+		g.drawImage(nurse, 560, 30, this);
 
 		// draw barriers and curtain
 		g.drawImage(crt, 320, 150, this);

@@ -13,10 +13,9 @@ import java.awt.event.ActionEvent;
 
 public class Panela extends JPanel implements ActionListener {
 	// TODO window height eta size aldagai batean gorde
-	
-	
+
 	private static final long serialVersionUID = 1L;
-	private Image boy, nurse, bed, bg, crt, vaccine;
+	private Image boy, nurse, bed, bg, crt, vaccine, barrier, tree;
 	private Timer timer;
 
 	// Grafikoaren Checkpoint-ak zehaztu
@@ -52,7 +51,7 @@ public class Panela extends JPanel implements ActionListener {
 
 		// Erizainen hasierako posizioen sorrera "dinamikoa"
 		nursePos = new int[EK][2];
-		int initialX = 80 + (800-200)/EK;  //200;
+		int initialX = 80 + (800 - 200) / EK; // 200;
 		int initialY = 800;
 		int sepX = 100;
 		for (int i = 0; i < EK; i++) {
@@ -74,6 +73,10 @@ public class Panela extends JPanel implements ActionListener {
 		crt = iicu.getImage();
 		ImageIcon iivc = new ImageIcon(this.getClass().getResource("vaccine.png"));
 		vaccine = iivc.getImage();
+		ImageIcon iibr = new ImageIcon(this.getClass().getResource("barrier.png"));
+		barrier = iibr.getImage();
+		ImageIcon iibr2 = new ImageIcon(this.getClass().getResource("tree.png"));
+		tree = iibr2.getImage();
 
 		this.setBackground(Color.white);
 
@@ -83,6 +86,8 @@ public class Panela extends JPanel implements ActionListener {
 
 	public void paint(Graphics g) {
 		super.paint(g);
+
+		// lehenago marraztu = irudian atzerago
 
 		// draw background
 		g.drawImage(bg, 0, 0, this);
@@ -100,13 +105,24 @@ public class Panela extends JPanel implements ActionListener {
 		for (int i = 0; i < EK; i++)
 			g.drawImage(nurse, nursePos[i][0], nursePos[i][1], this);
 
-		// draw curtain
+		// draw barriers and curtain
 		g.drawImage(crt, 320, 150, this);
+		for (int i = 0; i < 3; i++)
+			g.drawImage(barrier, 96 * i, 150, this);
+		g.drawImage(tree, 96 * 3, 150, this);
+
+		int sep = 96 * 3 + 32 + 215; // tree position + tree width + curtain
+		g.drawImage(tree, sep, 150, this);
+		sep += 32;
+		for (int i = 0; i < 3; i++)
+			g.drawImage(barrier, sep + 96 * i, 150, this);
+		g.drawImage(tree, 96 * 3, 150, this);
 
 		// draw vaccine
 		for (int i = 0; i < EK; i++)
 			if (isVisibleVac(i))
 				g.drawImage(vaccine, nursePos[i][0] - 80, nursePos[i][1] - 80, this);
+
 	}
 
 	// Boy position

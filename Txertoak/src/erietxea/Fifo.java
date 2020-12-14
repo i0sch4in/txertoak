@@ -29,14 +29,14 @@ public class Fifo {
 		while (!(ik < IK))
 			wait();
 
-		int tmp = is;
+		int tmp1 = is;
 
 		is = (is + 1) % IK;
 		ik += 1;
 
-		p.inprimatu(pazientea, "irits[" + tmp + "]");
+		p.inprimatu(pazientea, "irits[" + tmp1 + "]");
 		notifyAll();
-		return tmp;
+		return tmp1;
 
 	}
 

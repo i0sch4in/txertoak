@@ -6,7 +6,7 @@ public class Erizaina extends Thread implements Tab {
 	private Kanala k;
 	public int id;
 	private Panela panela;
-	private final int speed = 10;
+	private final int speed = 5;
 
 	public Erizaina(int id, Kanala k, Panela p) {
 		this.id = id;
@@ -22,6 +22,7 @@ public class Erizaina extends Thread implements Tab {
 				goToBed(bed);
 
 				panela.showVac(id);
+				// 1 eta 4 segundu bitarte itxaron, bakuna "txertatzeko"
 				itxaron(1, 4);
 				k.txertoaJarri(this);
 
@@ -92,7 +93,7 @@ public class Erizaina extends Thread implements Tab {
 	}
 
 	private void itxaron(int min, int max) throws InterruptedException {
-		// wait random seconds between 3 and 9
+		// wait random seconds between min and max
 		int random = ThreadLocalRandom.current().nextInt(min, max + 1);
 		sleep((long) random * 1000);
 	}

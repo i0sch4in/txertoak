@@ -5,18 +5,13 @@ import erietxea.Framea;
 public class ErietxeApp {
 	// Parametroak zehaztu
 	public final static int OK = 6; // Ohe kopurua
-	public final static int PK = 10; // Paziente kopurua
-	public final static int EK = 3; // Erizain kopurua
-	public final static int IK = 4; // Itxarote-gelaren tamaina
+	public final static int PK = 15; // Paziente kopurua
+	public final static int EK = 4; // Erizain kopurua
+	public final static int IK = 5; // Itxarote-gelaren tamaina
 	public final static int IM = 2; // Itxarote-gelaren egon behar den paziente-kopuru minimoa
-
+	
 	public static void main(String[] args) throws InterruptedException {
 
-//		System.out.println("ERIETXEA: return sakatu hasteko");
-//		try {
-//			System.in.read();
-//		} catch (Exception ex) {
-//		}
 
 		// framea eta pantaila hasieratu
 		Framea framea = new Framea();

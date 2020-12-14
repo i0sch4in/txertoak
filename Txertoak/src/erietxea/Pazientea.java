@@ -1,7 +1,5 @@
 package erietxea;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Pazientea extends Thread implements Tab {
 	private Kanala[] k;
 	private Fifo fifo;
@@ -10,7 +8,7 @@ public class Pazientea extends Thread implements Tab {
 	private int x; // Kanalaren indizea
 	private int id;
 	private int j; // Itxarote-ilarako posizioa
-	private final int speed = 10;
+	private final int speed = 8;
 
 	public Pazientea(int id, Fifo l, Kanala[] k, Panela p) {
 		this.id = id;
@@ -26,19 +24,16 @@ public class Pazientea extends Thread implements Tab {
 	public void run() {
 		while (true) {
 			try {
-				itxaron(1000);
+				itxaron(4000);
 				panela.setEntryPos(id);
 				panela.showBoy(id);
 
 				itxaron(1000);
 				j = fifo.iritsi(this);
-//				int ilarapos = panela.ilaranSartu(id);
 				goToQueue();
-				
 
 				itxaron(1000);
 				s = fifo.sartuTxanda(this, j);
-//				panela.ilaratikAtera();
 				goToStart();
 				goToBed();
 
@@ -78,27 +73,23 @@ public class Pazientea extends Thread implements Tab {
 	}
 
 	private void goToQueue() throws InterruptedException {
-		int [] range_x = {250, 550};
-		int [] range_y = {20, 200};
-		
 		int start_x = panela.entry[0];
-		int start_y = panela.entry[1];
-		
-		int pos_x = ThreadLocalRandom.current().nextInt(range_x[0], range_x[1] + 1);
-		int pos_y = ThreadLocalRandom.current().nextInt(range_y[0], range_y[1] + 1);
 
-		
+		int pos_x = panela.start[0] - (this.j * 50);
+
 		// SET X position
 		goToX(start_x, pos_x);
-		
-		// SET Y position
-		goToY(start_y, pos_y);
+
 	}
 
 	private void goToStart() throws InterruptedException {
+		itxaron(500);
 		int[] current = panela.getBoyXY(id);
 		int start_x = panela.start[0];
 		int start_y = panela.start[1];
+
+		// SET Y position -> get out of Queue
+		goToY(current[1], (start_y + current[1]) / 3);
 
 		// SET X position
 		goToX(current[0], start_x);
@@ -144,7 +135,7 @@ public class Pazientea extends Thread implements Tab {
 
 		int current_x = hall;
 		int current_y = bed_y + 30;
-		
+
 		itxaron(500);
 
 		panela.setBoyXY(id, current_x, current_y);

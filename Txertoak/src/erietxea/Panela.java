@@ -4,17 +4,17 @@ import java.awt.Image;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 import java.awt.Color;
 // Timer Imports
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.awt.event.ActionEvent;
 
 public class Panela extends JPanel implements ActionListener {
+	// TODO window height eta size aldagai batean gorde
+	
+	
 	private static final long serialVersionUID = 1L;
 	private Image boy, nurse, bed, bg, crt, vaccine;
 	private Timer timer;
@@ -36,33 +36,25 @@ public class Panela extends JPanel implements ActionListener {
 	private boolean[] visibleBoys;
 	private int[][] nursePos;
 	private boolean[] visibleVac;
-//	private Queue<Integer> ilara;
 
 	private int OK = bedPos.length;
 	private int PK;
 	private int EK;
 
 	public Panela() {
-		// ALDATU: hasierako posizioa = sarrera
-		// Pazienteen posizioen sorrera "dinamikoa"
 		PK = ErietxeApp.PK;
-		EK = ErietxeApp.PK;
+		EK = ErietxeApp.EK;
 		boyPos = new int[PK][2];
-//		for (int i = 0; i < PK; i++) {
-//			boyPos[i][0] = entry[0];
-//			boyPos[i][1] = entry[1];
-//		}
 
 		// Default all boys visibility to false
 		visibleBoys = new boolean[PK];
 		visibleVac = new boolean[EK];
-//		ilara = new LinkedList<Integer>();
 
-		// Erizainen posizioen sorrera "dinamikoa"
+		// Erizainen hasierako posizioen sorrera "dinamikoa"
 		nursePos = new int[EK][2];
-		int initialX = 200;
+		int initialX = 80 + (800-200)/EK;  //200;
 		int initialY = 800;
-		int sepX = 200;
+		int sepX = 100;
 		for (int i = 0; i < EK; i++) {
 			nursePos[i][0] = initialX;
 			nursePos[i][1] = initialY;
@@ -85,7 +77,7 @@ public class Panela extends JPanel implements ActionListener {
 
 		this.setBackground(Color.white);
 
-		timer = new Timer(10, this); // 15ms-ro actionPerformed metodoari deitzen dio
+		timer = new Timer(5, this); // 15ms-ro actionPerformed metodoari deitzen dio
 		timer.start();
 	}
 
@@ -111,28 +103,11 @@ public class Panela extends JPanel implements ActionListener {
 		// draw curtain
 		g.drawImage(crt, 320, 150, this);
 
-		// draw vacine
+		// draw vaccine
 		for (int i = 0; i < EK; i++)
 			if (isVisibleVac(i))
 				g.drawImage(vaccine, nursePos[i][0] - 80, nursePos[i][1] - 80, this);
 	}
-
-//	// pazientetik
-//	public int ilaranSartu(int boy) {
-//		int pos = start[0] - ilara.size() * 50; // to class variable
-//		ilara.add(boy);
-//		return pos;
-//	}
-//
-//	// pazientetik
-//	public void ilaratikAtera() {
-//		ilara.poll();
-//		for (int tmp : ilara) {
-//			int pos = getBoyXY(tmp)[0];
-//			pos = pos + 50;
-//			setBoyX(tmp, pos);
-//		}
-//	}
 
 	// Boy position
 	public void showBoy(int boy) {
